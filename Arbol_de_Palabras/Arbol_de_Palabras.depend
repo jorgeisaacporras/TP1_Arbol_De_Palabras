@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1589346479 source:/home/jporras/Documents/Universidad/Prog2/Arbol_de_Palabras/main.cpp
+	<iostream>
+	"Arbol.h"
+
+1589346224 source:/home/jporras/Documents/Universidad/Prog2/Arbol_de_Palabras/src/Arbol.cpp
+	"Arbol.h"
+
+1589344045 /home/jporras/Documents/Universidad/Prog2/Arbol_de_Palabras/include/Arbol.h
+	<iostream>
+	<fstream>
+	<map>
+	<string>
+	<set>
+	<iomanip>
+
