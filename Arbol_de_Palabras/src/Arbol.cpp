@@ -1,13 +1,27 @@
+/*
+*Universidad de Costa Rica
+*Escuela de Ciencias de la Computación e Informática
+*CI0113
+*Programación II
+*I Semestre 2020
+*Jorge Isaac Porras Rojas - B86117
+*Gabriel Revillat Zeledón
+*Tarea Programada I: Árbol de Palabras
+*/
+
 #include "Arbol.h"
+
 /*USO DE MAPA COMO SUBSTITUTO DE UN AVL:
 LA ESTRUCTURA MAP EN LA LIBRERIA STL ES UNA IMPLEMENTACIÓN DE UN ARBOL BINARIO BALANCEADO DE TIPO ROJO-NEGRO.
 EN ESTA IMPLEMENTACIÓN SE HA DECIDIDO UTILIZAR LA ESTRUCTURA DE MAPA COMO UN SUBTITUTO DE UN ARBOL AVL POR SU FACILIDAD DE USO
 REDUCCIÓN DE CODIGO Y FACILIDAD DE LECTURA. NOTESE QUE AL SER UNA ARBOL BINARIO BALANCEADO, LAS FUNCIONES DE BUSQUEDA TIENEN UN
 RENDIMIENTO SIMILAR A OTROS TIPOS DE ARBOL BB COMO EL AVL, SIN EMBARGO LA ESTRUCTURA DE AVL ES MAS RAPIDA. LA VENTAJA DEL ARBOL
-ROJO-NEGRO RESIDE EN UNA INSERCIÓN MÁS RÁPIDA.
+ROJO-NEGRO RESIDE EN UNA INSERCIÓN Y BORRADO MÁS RÁPIDOS.
 */
 
-
+/**
+La clase arbol es un controlador que se encarga de manejar todos los árboles (mapas en este caso) y su acceso y modificación de archivos.
+*/
 Arbol::Arbol(){
 
 }
@@ -17,20 +31,20 @@ Arbol:: ~Arbol(){
 
 /**
  * Método que se encarga de insertar una nueva palabra excepción en el archivo de excepciones.
- * @param salidaExcepciones
+ * @param salidaExcepciones Una cadena que represente el nombre del archivo de excepciones
  */
 void Arbol::insertarExcepcion(string salidaExcepciones)
 {
     string nuevaPalabra;
     ofstream archivoExcepciones;
     archivoExcepciones.open(salidaExcepciones, ios::app);
-    
+
     if (archivoExcepciones.is_open())
     {
         cout << "Digite la palabra que desea insertar: ";
         cin.ignore();
         cin >> nuevaPalabra;
-        
+
         //Para cada caracter de nuevaPalabra hacer
         for (unsigned int charActual = 0; charActual < nuevaPalabra.size(); ++charActual)
         {
@@ -50,7 +64,7 @@ void Arbol::insertarExcepcion(string salidaExcepciones)
 
 /**
  * Método que se encarga de modificar una palabra en el archivo de excepciones.
- * @param entradaExcepciones
+ * @param entradaExcepciones Una cadena que represente el nombre del archivo de excepciones
  */
 void Arbol::modificarExcepcion(string entradaExcepciones)
 {
@@ -60,28 +74,28 @@ void Arbol::modificarExcepcion(string entradaExcepciones)
     cout << "Digite la palabra que desea modificar: ";
     cin.ignore();
     cin >> aModificar;
-    
+
     for (unsigned int charActual = 0; charActual < aModificar.size(); ++charActual)
     {
         if (isalpha(aModificar[charActual]))
             aModificar[charActual] = tolower(aModificar[charActual]);
     }
-    
+
     cout << "Digite la nueva palabra para reemplazarla: ";
     cin.ignore();
     cin >> nuevaPalabra;
-    
+
     for (unsigned int charActual = 0; charActual < nuevaPalabra.size(); ++charActual)
     {
         if (isalpha(nuevaPalabra[charActual]))
             nuevaPalabra[charActual] = tolower(nuevaPalabra[charActual]);
     }
-    
+
     ifstream archivoExcepciones;
     archivoExcepciones.open(entradaExcepciones);
     ofstream archivoTemporal;
     archivoTemporal.open("tempExcepciones.txt"); //Archivo de salida temporal.
-    
+
     if (archivoExcepciones.is_open() && archivoTemporal.is_open())
     {
         //Mientras haya una línea actual en el archivo de excepciones hacer
@@ -93,7 +107,7 @@ void Arbol::modificarExcepcion(string entradaExcepciones)
             //Insertar la línea actual en el archivo temporal.
             archivoTemporal << lineaActual << endl;
         }
-        
+
         //Cerrar ambos archivos.
         archivoExcepciones.close();
         archivoTemporal.close();
@@ -109,7 +123,7 @@ void Arbol::modificarExcepcion(string entradaExcepciones)
 
 /**
  * Método que se encarga de eliminar una palabra del archivo de excepciones.
- * @param entradaExcepciones
+ * @param entradaExcepciones Una cadena que represente el nombre del archivo de excepciones
  */
 void Arbol::eliminarExcepcion(string entradaExcepciones)
 {
@@ -118,18 +132,18 @@ void Arbol::eliminarExcepcion(string entradaExcepciones)
     cout << "Digite la palabra que desea eliminar: ";
     cin.ignore();
     cin >> aEliminar;
-    
+
     for (unsigned int charActual = 0; charActual < aEliminar.size(); ++charActual)
     {
         if (isalpha(aEliminar[charActual]))
             aEliminar[charActual] = tolower(aEliminar[charActual]);
     }
-    
+
     ifstream archivoExcepciones;
     archivoExcepciones.open(entradaExcepciones);
     ofstream archivoTemporal;
     archivoTemporal.open("tempExcepciones.txt"); //Archivo de salida temporal.
-    
+
     if (archivoExcepciones.is_open() && archivoTemporal.is_open())
     {
         while (getline(archivoExcepciones, lineaActual))
@@ -140,7 +154,7 @@ void Arbol::eliminarExcepcion(string entradaExcepciones)
             //Insertar la línea actual en el archivo temporal.
             archivoTemporal << lineaActual << endl;
         }
-        
+
         //Cerrar ambos archivos.
         archivoExcepciones.close();
         archivoTemporal.close();
@@ -163,17 +177,16 @@ void Arbol::consultarExcepciones(string archivoExcepciones)
     ifstream lecturaExcepciones;
     lecturaExcepciones.open(archivoExcepciones);
     string lineaActual;
-    
+
     cout << "Lista de excepciones:" << endl;
     while (getline(lecturaExcepciones, lineaActual))
         cout << lineaActual << endl;
     lecturaExcepciones.close();
 }
 
-/*
-Efectúa: Lee el archivo de excepciones y almacena en un conjunto las palabras que no se quieren almacenar en el arbol de palabras
-Requiere: Una cadena que represente el nombre del archivo de excepciones
-Modifica: El conjunto que almacena las excepciones
+/**
+*Método que lee el archivo de excepciones y almacena en un conjunto las palabras que no se quieren almacenar en el arbol de palabras
+*@param entradaExcepciones Una cadena que represente el nombre del archivo de excepciones
 */
 void Arbol::leerExcepciones(string entradaExcepciones){
     ifstream ifs;
@@ -191,14 +204,18 @@ void Arbol::leerExcepciones(string entradaExcepciones){
     return;
 }
 
+/**
+*Método que lee el archivo de palabras y las almacena en un arbol de palabras
+*@param entradaPalabras Una cadena que represente el nombre del archivo de palabras
+*/
 void Arbol::leerPalabras(string entradaPalabras){
     ifstream ifs;
     ifs.open(entradaPalabras);
     string palabraActual;
     while (ifs >> palabraActual){
-        
+
         depurarPalabra(palabraActual); //Convierte la palabra en minúscula, elimina caracteres especiales.
-        
+
         map<string, int>::iterator it = palabras.find(palabraActual); //un iterador para la localización del par del mapa de palabras
         set<string>::iterator itExc = excepciones.find(palabraActual); //un iterador para la localización del elemento en el conjunto de excepciones
         if (itExc == excepciones.end()){ //si la palabra no se encuentra en el conjunto de excepciones
@@ -263,10 +280,15 @@ void Arbol::buscarPalabra(string palabra)
         cout << "| " << setw(20) << left << "Palabra";
         cout << "| " << setw(20) << left << "Frecuencia" << " |" << endl;
         cout << "| " << setw(20) << left << it->first;
-        cout << "| " << setw(20) << left << it->second << " |" <<endl;        
+        cout << "| " << setw(20) << left << it->second << " |" <<endl;
     }
 }
 
+/**
+*Método que lee los caracteres de una palabra y los añade al arbol de caracteres o calcula y actualiza sus ocurrencias si es necesario
+*@param palabra Una cadena que representa la palabra de la que se leen los caracteres
+*@param ocurrencias La cantidad de ocurrencias de la palabra que se analiza
+*/
 void Arbol::leerCaracteres(string palabra, int ocurrencias){
     for(string::iterator caracterActual = palabra.begin(); caracterActual != palabra.end(); ++caracterActual) { //recorrido del string
         map<char, int>::iterator it = caracteres.find(*caracterActual); //un iterador para la localizacion del caracter en el mapa de caracteres
@@ -281,6 +303,10 @@ void Arbol::leerCaracteres(string palabra, int ocurrencias){
     return;
 }
 
+/**
+*Método que envia el arbol de palabras actual a un archivo de salida
+*@param salidaPalabras Una cadena que represente el nombre del archivo de salida
+*/
 void Arbol::darPalabras(string salidaPalabras){
     ofstream ofs;
     ofs.open(salidaPalabras);
@@ -292,21 +318,25 @@ void Arbol::darPalabras(string salidaPalabras){
     }
     cout << "\n\n\n";
     ofs.close();
-    
+
     ifstream ifs; //Leer el archivo e imprimirlo
     ifs.open(salidaPalabras);
     string lineaActual;
-    
+
     if (ifs.is_open()) {
         cout << "Archivo de conteo de palabras:" << endl;
         while (getline(ifs, lineaActual))
             cout << lineaActual << endl;
-        
+
         ifs.close();
-    }    
+    }
     return;
 }
 
+/**
+*Método que envia el arbol de caracteres actual a un archivo de salida
+*@param salidaCaracteres Una cadena que represente el nombre del archivo de salida
+*/
 void Arbol::darCaracteres(string salidaCaracteres){
     ofstream ofs;
     ofs.open(salidaCaracteres);
@@ -317,21 +347,25 @@ void Arbol::darCaracteres(string salidaCaracteres){
         ofs << "| " << setw(20) << left << it->second << " |" <<endl; //formateo de los datos
     }
     ofs.close();
-    
+
     ifstream ifs; //Leer el archivo en imprimirlo
     ifs.open(salidaCaracteres);
     string lineaActual;
-    
+
     if (ifs.is_open()) {
         cout << "Archivo de conteo de caracteres:" << endl;
         while (getline(ifs, lineaActual))
             cout << lineaActual << endl;
-        
+
         ifs.close();
     }
     return;
 }
 
+/**
+*Método que carga un arbol de palabras desde un archivo guardado previamente
+*@param entradaArbol Una cadena que represente el nombre del archivo de entrada
+*/
 void Arbol::cargarArbol(string entradaArbol){
     ifstream ifs;
     ifs.open(entradaArbol);
@@ -344,6 +378,10 @@ void Arbol::cargarArbol(string entradaArbol){
     return;
 }
 
+/**
+*Método que envia el arbol de palabras actual a un archivo de salida para cargarlo en proximas ejecuciones
+*@param salidaArbol Una cadena que represente el nombre del archivo de salida
+*/
 void Arbol::guardarArbol(string salidaArbol){//guarda el arbol en un formato de una palabra por linea con sus ocurrencias separadas por un espacio
     ofstream ofs;
     ofs.open(salidaArbol);
@@ -354,6 +392,9 @@ void Arbol::guardarArbol(string salidaArbol){//guarda el arbol en un formato de 
     return;
 }
 
+/**
+*Método que recorre el arbol de palabras para contar los caracteres que estas contienen
+*/
 void Arbol::contarCaracteres(){
     for (map<string, int>::iterator it = palabras.begin(); it != palabras.end(); it++){ //para cada palabra en el mapa de palabras
         leerCaracteres(it->first, it->second); //realiza una lectura caracter por caracter que cuenta sus ocurrencias
@@ -361,18 +402,30 @@ void Arbol::contarCaracteres(){
     return;
 }
 
+/**
+*Método que retorna el arbol de palabras
+*@return El arbol de palabras
+*/
 map<string, int> Arbol::getPalabras(){
 
     return palabras;
 
 }
 
+/**
+*Método que retorna el arbol de caracteres
+*@return El arbol de caracteres
+*/
 map<char, int> Arbol::getCaracteres(){
 
     return caracteres;
 
 }
 
+/**
+*Método que retorna el conjunto de palabras
+*@return El conjunto de palabras
+*/
 set<string> Arbol::getExcepciones(){
 
     return excepciones;
