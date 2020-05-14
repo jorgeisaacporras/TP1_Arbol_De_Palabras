@@ -5,7 +5,7 @@
 *Programación II
 *I Semestre 2020
 *Jorge Isaac Porras Rojas - B86117
-*Gabriel Revillat Zeledón
+*Gabriel Revillat Zeledón - B86524
 *Tarea Programada I: Árbol de Palabras
 */
 
