@@ -15,8 +15,14 @@ class Arbol
         set<string> excepciones;
         Arbol();
         virtual ~Arbol();
+        void insertarExcepcion(string salidaExcepciones);
+        void modificarExcepcion(string entradaExcepciones);
+        void eliminarExcepcion(string entradaExcepciones);
+        void consultarExcepciones(string archivoExcepciones);
         void leerExcepciones(string entradaCaracteres);
         void leerPalabras(string entradaCaracteres);
+        void depurarPalabra(string & palabraActual);
+        void buscarPalabra(string palabra);
         void leerCaracteres(string palabra, int ocurrencias);
         void darPalabras(string entradaCaracteres);
         void darCaracteres(string entradaCaracteres);
